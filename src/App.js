@@ -4,7 +4,7 @@ import { Container } from 'semantic-ui-react'
 import Navbar from './components/Navbar'
 import MemoriesPage from './pages/Memories'
 import ProfilePage from './pages/Profile'
-import MemoryPage from './pages/Memory'
+import CreateMemoryPage from './pages/CreateMemory'
 
 class App extends Component {
   render () {
@@ -15,8 +15,7 @@ class App extends Component {
           <Container>
             <Route path='/' exact component={MemoriesPage} />
             <Route path='/profile' component={ProfilePage} />
-            <Route path='/memory' exact component={MemoryPage} />
-            <Route path='/memory/:id' component={MemoryPage} />
+            <Route path='/memory/create' component={CreateMemoryPage} />
           </Container>
         </div>
       </BrowserRouter>

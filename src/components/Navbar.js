@@ -7,6 +7,7 @@ export default () => {
     <Menu>
       <Menu.Item header>rememorize</Menu.Item>
       <Menu.Item as={NavLink} to='/' name='Wspomnienia' />
+      <Menu.Item as={NavLink} to='/memory/create' name='Nowe wspomnienie' />
       <Menu.Menu position='right'>
         <Menu.Item name='Wyloguj' />
         <Menu.Item as={NavLink} to='/profile' name='Profil' />
