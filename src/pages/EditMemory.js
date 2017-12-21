@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { createMemory } from '../state/memories'
+import { setMemory } from '../state/memories'
 import { Redirect } from 'react-router-dom'
 import MemoryForm from '../components/MemoryForm'
 
-class CreateMemoryPage extends Component {
+class EditMemoryPage extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -16,28 +16,31 @@ class CreateMemoryPage extends Component {
   }
 
   handleSubmit (memory) {
+    const { match } = this.props
     this.setState({ loading: true })
-    this.props.createMemory(memory)
+    this.props.setMemory(match.params.id, memory)
       .then(() => this.setState({ loading: false, redirect: true }))
   }
 
   render () {
     const { loading, redirect } = this.state
+    const { match, memories } = this.props
+    const memory = memories.find(m => m.id === match.params.id)
 
     return (
-      redirect ? <Redirect to='/' />
-      : <MemoryForm onSubmit={this.handleSubmit} loading={loading} submitText='Dodaj' />
+      (redirect || !memory) ? <Redirect to='/' />
+      : <MemoryForm onSubmit={this.handleSubmit} loading={loading} memory={memory} submitText='Zapisz' />
 
     )
   }
 }
 
 const mapStateToProps = (state) => ({
-
+  memories: state.memories
 })
 
 const mapDispatchToProps = {
-  createMemory
+  setMemory
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateMemoryPage)
+export default connect(mapStateToProps, mapDispatchToProps)(EditMemoryPage)

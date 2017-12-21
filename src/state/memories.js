@@ -3,6 +3,7 @@ import firebase from 'firebase'
 // Actions
 const LOAD_MEMORIES = 'LOAD_MEMORIES'
 const ADD_MEMORY = 'ADD_MEMORY'
+const UPDATE_MEMORY = 'UPDATE_MEMORY'
 
 // Action creators
 export const loadMemories = (memories) => ({
@@ -15,6 +16,14 @@ export const addMemory = (memory) => ({
   payload: memory
 })
 
+export const updateMemory = (id, memory) => ({
+  type: UPDATE_MEMORY,
+  payload: {
+    id,
+    memory
+  }
+})
+
 // Reducer
 export default (state = [], action) => {
   switch (action.type) {
@@ -23,6 +32,9 @@ export default (state = [], action) => {
 
     case ADD_MEMORY:
       return [...state, action.payload]
+
+    case UPDATE_MEMORY:
+      return [...state.filter(m => m.id !== action.payload.id), action.payload.memory]
 
     default:
       return state
@@ -46,4 +58,9 @@ export const fetchMemories = () => dispatch => {
 export const createMemory = (memory) => dispatch => {
   const db = firebase.firestore()
   return db.collection('memories').add(memory).then(doc => dispatch(addMemory({...memory, id: doc.id})))
+}
+
+export const setMemory = (id, memory) => dispatch => {
+  const db = firebase.firestore()
+  return db.collection('memories').doc(id).set(memory).then(() => dispatch(updateMemory(id, memory)))
 }
