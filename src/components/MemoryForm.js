@@ -1,19 +1,17 @@
 import React, { Component } from 'react'
 import { Form, Image, Grid } from 'semantic-ui-react'
 import FileInput from './FileInput'
-import firebase from 'firebase'
 
 export default class MemoryForm extends Component {
   constructor (props) {
     super(props)
-    const { name, description, date, photo, media, photoUrl } = props.memory || {}
+    const { name, description, date, photo, media } = props.memory || {}
     this.state = {
       name: name || '',
       description: description || '',
       date: date || '',
       photo: photo || '',
-      media: media || [],
-      photoUrl: photoUrl || `${process.env.PUBLIC_URL}/missing-image.png`
+      media: media || []
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -27,37 +25,23 @@ export default class MemoryForm extends Component {
 
   handleSubmit () {
     this.setState({ loading: true })
-    const { name, description, date, photo } = this.state
-    this.props.onSubmit({
-      name,
-      description,
-      date,
-      photo
-    })
+    this.props.onSubmit({...this.state})
   }
 
-  onNewMedia (id, url) {
+  onNewMedia (url) {
     const { media } = this.state
-    this.setState({ media: [...media, id], photo: id, photoUrl: url })
-  }
-
-  componentDidMount () {
-    const { photo } = this.state
-    photo && firebase.storage().ref()
-    .child(`media/${photo}`)
-    .getDownloadURL()
-    .then(url => this.setState({ photoUrl: url }))
+    this.setState({ media: [...media, url], photo: url })
   }
 
   render () {
-    const { name, description, date, photoUrl } = this.state
+    const { name, description, date, photo } = this.state
     const { loading, submitText } = this.props
 
     return (
       <Grid columns={2} divided>
         <Grid.Row>
           <Grid.Column>
-            <Image fluid rounded src={photoUrl} />
+            <Image fluid rounded src={photo || `${process.env.PUBLIC_URL}/missing-image.png`} />
           </Grid.Column>
           <Grid.Column>
             <Form loading={loading} onSubmit={this.handleSubmit}>

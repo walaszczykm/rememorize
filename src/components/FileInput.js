@@ -26,7 +26,7 @@ export default class FileInput extends Component {
     let promises = [].map.call(this.fileInput.files, file =>
       storageRef.child(`${filesPrefix}/${shortid.generate()}`)
       .put(file)
-      .then(snap => this.props.onFileUploaded(snap.metadata.name, snap.downloadURL))
+      .then(snap => this.props.onFileUploaded(snap.downloadURL))
     )
 
     Promise.all(promises).then(() => this.setState({ loading: false }))
