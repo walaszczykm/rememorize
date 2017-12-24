@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Form, Image, Grid } from 'semantic-ui-react'
+import { Form, Image, Grid, Card } from 'semantic-ui-react'
 import FileInput from './FileInput'
+import PhotoCard from './PhotoCard'
 
 export default class MemoryForm extends Component {
   constructor (props) {
@@ -17,6 +18,8 @@ export default class MemoryForm extends Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
     this.onNewMedia = this.onNewMedia.bind(this)
+    this.onRemoveMedia = this.onRemoveMedia.bind(this)
+    this.onSelectPhoto = this.onSelectPhoto.bind(this)
   }
 
   handleChange (e, { name, value }) {
@@ -30,18 +33,35 @@ export default class MemoryForm extends Component {
 
   onNewMedia (url) {
     const { media } = this.state
-    this.setState({ media: [...media, url], photo: url })
+    this.setState({ media: [...media, url] })
+  }
+
+  onRemoveMedia (url) {
+    const { media, photo } = this.state
+    this.setState({ media: media.filter(m => m !== url), photo: photo === url ? '' : photo })
+  }
+
+  onSelectPhoto (url) {
+    const { media } = this.state
+    media.indexOf(url) !== -1 && this.setState({ photo: url })
   }
 
   render () {
-    const { name, description, date, photo } = this.state
+    const { name, description, date, media, photo } = this.state
     const { loading, submitText } = this.props
+    const imageCards = media.map((url, index) =>
+      <PhotoCard src={url} key={index}
+        selected={photo === url}
+        onRemove={() => this.onRemoveMedia(url)}
+        onSelect={() => this.onSelectPhoto(url)} />)
 
     return (
       <Grid columns={2} divided>
         <Grid.Row>
           <Grid.Column>
-            <Image fluid rounded src={photo || `${process.env.PUBLIC_URL}/missing-image.png`} />
+            <Card.Group>
+              {imageCards}
+            </Card.Group>
           </Grid.Column>
           <Grid.Column>
             <Form loading={loading} onSubmit={this.handleSubmit}>
