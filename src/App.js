@@ -6,6 +6,8 @@ import MemoriesPage from './pages/Memories'
 import ProfilePage from './pages/Profile'
 import CreateMemoryPage from './pages/CreateMemory'
 import EditMemoryPage from './pages/EditMemory'
+import SignUpPage from './pages/SignUp'
+import SignInPage from './pages/SignIn'
 
 class App extends Component {
   render () {
@@ -19,6 +21,8 @@ class App extends Component {
               <Route path='/profile' component={ProfilePage} />
               <Route path='/memory/create' component={CreateMemoryPage} />
               <Route path='/memory/:id' component={EditMemoryPage} />
+              <Route path='/signup' component={SignUpPage} />
+              <Route path='/signin' component={SignInPage} />
             </Switch>
           </Container>
         </div>

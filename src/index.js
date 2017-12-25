@@ -8,10 +8,10 @@ import './index.css'
 import 'semantic-ui-css/semantic.min.css'
 import registerServiceWorker from './registerServiceWorker'
 
-initFirebase()
+initFirebase(store.dispatch)
 
 const Root = () => (
-  <Provider store={store()}>
+  <Provider store={store}>
     <App />
   </Provider>
 )
