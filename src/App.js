@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { signOut } from './state/user'
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import { Container } from 'semantic-ui-react'
 import Navbar from './components/Navbar'
 import MemoriesPage from './pages/Memories'
@@ -10,11 +12,24 @@ import SignUpPage from './pages/SignUp'
 import SignInPage from './pages/SignIn'
 
 class App extends Component {
+  constructor (props) {
+    super(props)
+
+    this.onSignOut = this.onSignOut.bind(this)
+  }
+
+  onSignOut () {
+    this.props.signOut()
+  }
+
   render () {
+    const { user } = this.props
+
     return (
       <BrowserRouter>
         <div>
-          <Navbar />
+          { !user.email && <Redirect to='/signin' /> }
+          <Navbar user={user} onSignOut={this.onSignOut} />
           <Container>
             <Switch>
               <Route path='/' exact component={MemoriesPage} />
@@ -31,4 +46,12 @@ class App extends Component {
   }
 }
 
-export default App
+const mapStateToProps = (state) => ({
+  user: state.user
+})
+
+const mapDispatchToProps = {
+  signOut
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
