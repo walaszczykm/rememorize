@@ -1,4 +1,5 @@
 import firebase from 'firebase'
+import { loadMemories } from './memories'
 
 // Actions
 const SET_USER = 'SET_USER'
@@ -33,4 +34,4 @@ export const signUp = (email, password) => (dispatch) => firebase.auth().createU
 
 export const signIn = (email, password) => (dispatch) => firebase.auth().signInWithEmailAndPassword(email, password)
 
-export const signOut = () => (dispatch) => firebase.auth().signOut()
+export const signOut = () => (dispatch) => firebase.auth().signOut().then(() => dispatch(loadMemories([])))

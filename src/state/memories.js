@@ -42,11 +42,19 @@ export default (state = [], action) => {
 }
 
 // Thunks
-export const fetchMemories = () => dispatch => {
+export const fetchMemories = () => (dispatch, getState) => {
+  const state = getState()
+  if (!state.user.email) {
+    return Promise.reject(new Error('user object not exist in state'))
+  }
+
   const db = firebase.firestore()
   let memories = []
 
-  return db.collection('memories').get().then(querySnapshot => {
+  return db.collection('memories')
+  .where('owner', '==', state.user.email)
+  .get()
+  .then(querySnapshot => {
     querySnapshot.forEach(doc => {
       memories.push({...doc.data(), id: doc.id})
     })
@@ -55,9 +63,16 @@ export const fetchMemories = () => dispatch => {
   })
 }
 
-export const createMemory = (memory) => dispatch => {
+export const createMemory = (memory) => (dispatch, getState) => {
+  const state = getState()
+  if (!state.user.email) {
+    return Promise.reject(new Error('user object not exist in state'))
+  }
+
   const db = firebase.firestore()
-  return db.collection('memories').add(memory).then(doc => dispatch(addMemory({...memory, id: doc.id})))
+  return db.collection('memories')
+  .add({ ...memory, owner: state.user.email })
+  .then(doc => dispatch(addMemory({...memory, id: doc.id})))
 }
 
 export const setMemory = (id, memory) => dispatch => {

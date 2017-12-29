@@ -23,8 +23,10 @@ class MemoriesPage extends Component {
     )
   }
 
-  componentDidMount () {
-    this.props.fetchMemories().then(() => this.setState({ loading: false }))
+  componentWillMount () {
+    this.props.fetchMemories()
+    .then(() => this.setState({ loading: false }))
+    .catch(error => console.log(error.message))
   }
 }
 

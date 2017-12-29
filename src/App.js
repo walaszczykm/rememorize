@@ -28,17 +28,22 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div>
-          { !user.email && <Redirect to='/signin' /> }
           <Navbar user={user} onSignOut={this.onSignOut} />
           <Container>
+            { !user.email &&
+            <Switch>
+              <Route path='/signup' component={SignUpPage} />
+              <Route path='/signin' component={SignInPage} />
+              <Redirect to='/signin' />
+            </Switch> }
+            { user.email &&
             <Switch>
               <Route path='/' exact component={MemoriesPage} />
               <Route path='/profile' component={ProfilePage} />
               <Route path='/memory/create' component={CreateMemoryPage} />
               <Route path='/memory/:id' component={EditMemoryPage} />
-              <Route path='/signup' component={SignUpPage} />
-              <Route path='/signin' component={SignInPage} />
-            </Switch>
+              <Redirect to='/' />
+            </Switch> }
           </Container>
         </div>
       </BrowserRouter>

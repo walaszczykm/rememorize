@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { signIn } from '../state/user'
 import AuthForm from '../components/AuthForm'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 
 class SignInPage extends Component {
   constructor (props) {
@@ -10,7 +10,8 @@ class SignInPage extends Component {
 
     this.state = {
       loading: false,
-      redirect: false
+      redirect: false,
+      error: null
     }
 
     this.onSubmit = this.onSubmit.bind(this)
@@ -20,19 +21,22 @@ class SignInPage extends Component {
     console.log(data)
     this.setState({ loading: true })
     this.props.signIn(data.email, data.password)
-    .catch(error => {
-      console.log('signUpError', error)
-    })
     .then(() => this.setState({ loading: false, redirect: true }))
+    .catch(error => {
+      this.setState({ loading: false, error: error.message })
+    })
   }
 
   render () {
-    const { loading, redirect } = this.state
+    const { loading, redirect, error } = this.state
 
     return (
       <div>
         {redirect ? <Redirect to='/memories' />
-        : <AuthForm loading={loading} btnContent='Zaloguj' onSubmit={this.onSubmit} />}
+        : <AuthForm loading={loading} error={error} btnContent='Zaloguj' onSubmit={this.onSubmit} />}
+        <br />
+        <span>Nie masz jeszcze konta? </span>
+        <Link to='/signup'>Zarejestruj się</Link>
       </div>
     )
   }
