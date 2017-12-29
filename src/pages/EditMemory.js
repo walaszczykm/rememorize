@@ -20,6 +20,7 @@ class EditMemoryPage extends Component {
     this.setState({ loading: true })
     this.props.setMemory(match.params.id, memory)
       .then(() => this.setState({ loading: false, redirect: true }))
+      .catch(error => console.log(error))
   }
 
   render () {

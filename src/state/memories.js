@@ -75,7 +75,15 @@ export const createMemory = (memory) => (dispatch, getState) => {
   .then(doc => dispatch(addMemory({...memory, id: doc.id})))
 }
 
-export const setMemory = (id, memory) => dispatch => {
+export const setMemory = (id, memory) => (dispatch, getState) => {
+  const state = getState()
+  if (!state.user.email) {
+    return Promise.reject(new Error('user object not exist in state'))
+  }
+
   const db = firebase.firestore()
-  return db.collection('memories').doc(id).set(memory).then(() => dispatch(updateMemory(id, memory)))
+  return db.collection('memories')
+  .doc(id)
+  .set({ ...memory, owner: state.user.email })
+  .then(() => dispatch(updateMemory(id, memory)))
 }
