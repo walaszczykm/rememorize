@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Grid, Card } from 'semantic-ui-react'
+import { Form, Grid, Card, Divider } from 'semantic-ui-react'
 import FileInput from './FileInput'
 import PhotoCard from './PhotoCard'
 
@@ -56,21 +56,24 @@ export default class MemoryForm extends Component {
         onSelect={() => this.onSelectPhoto(url)} />)
 
     return (
-      <Grid columns={2} divided>
+      <Grid columns={1}>
         <Grid.Row>
-          <Grid.Column>
-            <Card.Group>
-              {imageCards}
-            </Card.Group>
-          </Grid.Column>
           <Grid.Column>
             <Form loading={loading} onSubmit={this.handleSubmit}>
               <Form.Input placeholder='Nazwa wspomnienia...' name='name' value={name} onChange={this.handleChange} />
               <Form.TextArea placeholder='Opis wspomnienia...' name='description' value={description} onChange={this.handleChange} />
               <Form.Input placeholder='Data...' name='date' value={date} onChange={this.handleChange} />
-              <FileInput buttonContent='Wybierz pliki' filesPrefix='media' onFileUploaded={this.onNewMedia} />
+              <FileInput buttonContent='Wybierz zdjęcia' filesPrefix='media' onFileUploaded={this.onNewMedia} />
               <Form.Button>{submitText}</Form.Button>
             </Form>
+          </Grid.Column>
+        </Grid.Row>
+        <Divider />
+        <Grid.Row>
+          <Grid.Column>
+            <Card.Group>
+              {imageCards}
+            </Card.Group>
           </Grid.Column>
         </Grid.Row>
       </Grid>

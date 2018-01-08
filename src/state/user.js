@@ -30,8 +30,20 @@ export default (state = {}, action) => {
 }
 
 // Thunks
-export const signUp = (email, password) => (dispatch) => firebase.auth().createUserWithEmailAndPassword(email, password)
+export const signUp = (email, password, data) => (dispatch) => firebase.auth().createUserWithEmailAndPassword(email, password)
+.then((u) => firebase.firestore().collection('users').doc(email).set(data))
 
 export const signIn = (email, password) => (dispatch) => firebase.auth().signInWithEmailAndPassword(email, password)
 
 export const signOut = () => (dispatch) => firebase.auth().signOut().then(() => dispatch(loadMemories([])))
+
+export const updateUser = ({email, name, lastname}) => (dispatch) => {
+  const db = firebase.firestore()
+  return db.collection('users')
+  .doc(email)
+  .set({
+    name,
+    lastname
+  })
+  .then(() => dispatch(setUser({email, name, lastname})))
+}

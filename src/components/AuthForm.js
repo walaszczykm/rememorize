@@ -8,7 +8,9 @@ export default class AuthForm extends Component {
     this.state = {
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      name: '',
+      lastname: ''
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -25,7 +27,7 @@ export default class AuthForm extends Component {
   }
 
   render () {
-    const { email, password, confirmPassword } = this.state
+    const { email, password, confirmPassword, name, lastname } = this.state
     const { loading, displayConfirm, btnContent, error } = this.props
 
     return (
@@ -38,7 +40,11 @@ export default class AuthForm extends Component {
           <Form.Input placeholder='Email...'name='email'value={email} onChange={this.handleChange} />
           <Form.Input placeholder='Hasło...' type='password' name='password' value={password} onChange={this.handleChange} />
           {displayConfirm &&
-          <Form.Input placeholder='Powtórz hasło...' type='password' name='confirmPassword' value={confirmPassword} onChange={this.handleChange} />}
+          <div>
+            <Form.Input placeholder='Powtórz hasło...' type='password' name='confirmPassword' value={confirmPassword} onChange={this.handleChange} />
+            <Form.Input placeholder='Imie...'name='name'value={name} onChange={this.handleChange} />
+            <Form.Input placeholder='Nazwisko...'name='lastname'value={lastname} onChange={this.handleChange} />
+          </div>}
           <Form.Button>{btnContent}</Form.Button>
         </Form>
       </div>

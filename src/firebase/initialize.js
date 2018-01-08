@@ -6,9 +6,15 @@ import { setUser, unsetUser } from '../state/user'
 export default (dispatch) => {
   firebase.initializeApp(config)
 
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      dispatch(setUser(user))
+  firebase.auth().onAuthStateChanged((state) => {
+    if (state) {
+      firebase.firestore().collection('users').doc(state.email).get()
+      .then(doc => {
+        if (doc.exists) {
+          let user = doc.data()
+          dispatch(setUser({ email: state.email, name: user.name, lastname: user.lastname }))
+        }
+      })
     } else {
       dispatch(unsetUser())
     }

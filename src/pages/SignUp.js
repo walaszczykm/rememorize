@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { signUp } from '../state/user'
 import AuthForm from '../components/AuthForm'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 
 class SignUpPage extends Component {
   constructor (props) {
@@ -18,10 +18,9 @@ class SignUpPage extends Component {
   }
 
   onSubmit (data) {
-    console.log(data)
     this.setState({ loading: true })
     if (data.password === data.confirmPassword) {
-      this.props.signUp(data.email, data.password)
+      this.props.signUp(data.email, data.password, { name: data.name, lastname: data.lastname })
       .then(() => this.setState({ loading: false, redirect: true }))
       .catch(error => {
         this.setState({ loading: false, error: error.message })
@@ -38,6 +37,9 @@ class SignUpPage extends Component {
       <div>
         {redirect ? <Redirect to='/signin' />
         : <AuthForm loading={loading} error={error} displayConfirm btnContent='Zarejestruj' onSubmit={this.onSubmit} />}
+        <br />
+        <span>Masz już konto? </span>
+        <Link to='/signin'>Zaloguj się</Link>
       </div>
     )
   }
