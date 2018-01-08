@@ -6,8 +6,8 @@ export default ({ user, onSignOut }) => {
   return (
     <Menu>
       <Menu.Item header>rememorize</Menu.Item>
-      <Menu.Item as={NavLink} to='/' name='Wspomnienia' />
-      <Menu.Item as={NavLink} to='/memory/create' name='Nowe wspomnienie' />
+      {user.email && <Menu.Item as={NavLink} to='/' name='Wspomnienia' />}
+      {user.email && <Menu.Item as={NavLink} to='/memory/create' name='Nowe wspomnienie' />}
       {user.email && <Menu.Menu position='right'>
         <Menu.Item name='Wyloguj' onClick={onSignOut} />
         <Menu.Item as={NavLink} to='/profile' name={user.email} />

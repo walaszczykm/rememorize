@@ -8,8 +8,7 @@ class EditMemoryPage extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      loading: false,
-      redirect: false
+      loading: false
     }
 
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -19,17 +18,17 @@ class EditMemoryPage extends Component {
     const { match } = this.props
     this.setState({ loading: true })
     this.props.setMemory(match.params.id, memory)
-      .then(() => this.setState({ loading: false, redirect: true }))
+      // .then(() => this.setState({ loading: false, redirect: true }))
       .catch(error => console.log(error))
   }
 
   render () {
-    const { loading, redirect } = this.state
+    const { loading } = this.state
     const { match, memories } = this.props
     const memory = memories.find(m => m.id === match.params.id)
 
     return (
-      (redirect || !memory) ? <Redirect to='/' />
+      !memory ? <Redirect to='/' />
       : <MemoryForm onSubmit={this.handleSubmit} loading={loading} memory={memory} submitText='Zapisz' />
 
     )

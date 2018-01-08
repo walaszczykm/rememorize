@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Image, Grid, Card } from 'semantic-ui-react'
+import { Form, Grid, Card } from 'semantic-ui-react'
 import FileInput from './FileInput'
 import PhotoCard from './PhotoCard'
 

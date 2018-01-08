@@ -82,8 +82,9 @@ export const setMemory = (id, memory) => (dispatch, getState) => {
   }
 
   const db = firebase.firestore()
+  memory = { ...memory, owner: state.user.email }
   return db.collection('memories')
   .doc(id)
-  .set({ ...memory, owner: state.user.email })
+  .set(memory)
   .then(() => dispatch(updateMemory(id, memory)))
 }
