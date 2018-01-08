@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Message, Label } from 'semantic-ui-react'
+import { Form, Message, Button } from 'semantic-ui-react'
 
 export default class ProfileForm extends Component {
   constructor (props) {
@@ -38,7 +38,7 @@ export default class ProfileForm extends Component {
           <h3>{email}</h3>
           <Form.Input placeholder='Imię...' name='name'value={name} onChange={this.handleChange} />
           <Form.Input placeholder='Nazwisko...' name='lastname' value={lastname} onChange={this.handleChange} />
-          <Form.Button>Zapisz</Form.Button>
+          <Button className={'orange'}>Zapisz</Button>
         </Form>
       </div>
     )

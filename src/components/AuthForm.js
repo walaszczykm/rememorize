@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Message } from 'semantic-ui-react'
+import { Form, Message, Button, Image, Icon } from 'semantic-ui-react'
 
 export default class AuthForm extends Component {
   constructor (props) {
@@ -32,6 +32,8 @@ export default class AuthForm extends Component {
 
     return (
       <div>
+        <Image centered size='medium' src={`${process.env.PUBLIC_URL + '/logo.png'}`} />
+        <br />
         {error &&
         <Message negative>
           <p>{error}</p>
@@ -45,7 +47,10 @@ export default class AuthForm extends Component {
             <Form.Input placeholder='Imie...'name='name'value={name} onChange={this.handleChange} />
             <Form.Input placeholder='Nazwisko...'name='lastname'value={lastname} onChange={this.handleChange} />
           </div>}
-          <Form.Button>{btnContent}</Form.Button>
+          <Button className={'orange'}>
+            <Icon name='sign in' />
+            {btnContent}
+          </Button>
         </Form>
       </div>
     )

@@ -19,7 +19,7 @@ class MemoriesPage extends Component {
 
     return (
       <div>
-        <h1>Memories list</h1>
+        <h1>Moje wspomnienia</h1>
         {loading
           ? <Loader active size='large' />
           : memories.length > 0

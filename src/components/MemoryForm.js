@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Grid, Card, Divider } from 'semantic-ui-react'
+import { Form, Grid, Card, Divider, Button, Icon } from 'semantic-ui-react'
 import FileInput from './FileInput'
 import PhotoCard from './PhotoCard'
 
@@ -52,8 +52,14 @@ export default class MemoryForm extends Component {
     const imageCards = media.map((url, index) =>
       <PhotoCard src={url} key={index}
         selected={photo === url}
-        onRemove={() => this.onRemoveMedia(url)}
-        onSelect={() => this.onSelectPhoto(url)} />)
+        onRemove={(event) => {
+          event.preventDefault()
+          this.onRemoveMedia(url)
+        }}
+        onSelect={(event) => {
+          event.preventDefault()
+          this.onSelectPhoto(url)
+        }} />)
 
     return (
       <Grid columns={1}>
@@ -64,16 +70,16 @@ export default class MemoryForm extends Component {
               <Form.TextArea placeholder='Opis wspomnienia...' name='description' value={description} onChange={this.handleChange} />
               <Form.Input placeholder='Data...' name='date' value={date} onChange={this.handleChange} />
               <FileInput buttonContent='Wybierz zdjęcia' filesPrefix='media' onFileUploaded={this.onNewMedia} />
-              <Form.Button>{submitText}</Form.Button>
+              <Divider />
+              <Card.Group>
+                {imageCards}
+              </Card.Group>
+              <Divider />
+              <Button className={'orange'}>
+                <Icon name='save' />
+                {submitText}
+              </Button>
             </Form>
-          </Grid.Column>
-        </Grid.Row>
-        <Divider />
-        <Grid.Row>
-          <Grid.Column>
-            <Card.Group>
-              {imageCards}
-            </Card.Group>
           </Grid.Column>
         </Grid.Row>
       </Grid>
