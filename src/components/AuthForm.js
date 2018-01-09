@@ -33,6 +33,7 @@ export default class AuthForm extends Component {
     return (
       <div>
         <Image centered size='medium' src={`${process.env.PUBLIC_URL + '/logo.png'}`} />
+        <h3 style={{textAlign: 'center'}}>Jedno miejsce, wszystkie Twoje wspomnienia</h3>
         <br />
         {error &&
         <Message negative>
