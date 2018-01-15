@@ -4,6 +4,7 @@ import firebase from 'firebase'
 const LOAD_MEMORIES = 'LOAD_MEMORIES'
 const ADD_MEMORY = 'ADD_MEMORY'
 const UPDATE_MEMORY = 'UPDATE_MEMORY'
+const REMOVE_MEMORY = 'REMOVE_MEMORY'
 
 // Action creators
 export const loadMemories = (memories) => ({
@@ -24,6 +25,11 @@ export const updateMemory = (id, memory) => ({
   }
 })
 
+export const removeMemory = (id) => ({
+  type: REMOVE_MEMORY,
+  payload: id
+})
+
 // Reducer
 export default (state = [], action) => {
   switch (action.type) {
@@ -35,6 +41,9 @@ export default (state = [], action) => {
 
     case UPDATE_MEMORY:
       return [...state.filter(m => m.id !== action.payload.id), action.payload.memory]
+
+    case REMOVE_MEMORY:
+      return [...state.filter(m => m.id !== action.payload)]
 
     default:
       return state
@@ -87,4 +96,13 @@ export const setMemory = (id, memory) => (dispatch, getState) => {
   .doc(id)
   .set(memory)
   .then(() => dispatch(updateMemory(id, memory)))
+}
+
+export const deleteMemory = (id) => (dispatch) => {
+  const db = firebase.firestore()
+
+  return db.collection('memories')
+  .doc(id)
+  .delete()
+  .then(() => dispatch(removeMemory(id)))
 }

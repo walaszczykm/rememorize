@@ -48,7 +48,7 @@ export default class MemoryForm extends Component {
 
   render () {
     const { name, description, date, media, photo } = this.state
-    const { loading, submitText } = this.props
+    const { loading, submitText, onMemoryDelete } = this.props
     const imageCards = media.map((url, index) =>
       <PhotoCard src={url} key={index}
         selected={photo === url}
@@ -79,6 +79,14 @@ export default class MemoryForm extends Component {
                 <Icon name='save' />
                 {submitText}
               </Button>
+              {this.props.memory &&
+              <Button color='red' onClick={(event) => {
+                event.preventDefault()
+                onMemoryDelete(this.props.memory.id)
+              }}>
+                <Icon name='trash' />
+                  Usuń wspomnienie
+              </Button>}
             </Form>
           </Grid.Column>
         </Grid.Row>
