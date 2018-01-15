@@ -68,7 +68,7 @@ export default class MemoryForm extends Component {
             <Form loading={loading} onSubmit={this.handleSubmit}>
               <Form.Input placeholder='Nazwa wspomnienia...' name='name' value={name} onChange={this.handleChange} />
               <Form.TextArea placeholder='Opis wspomnienia...' name='description' value={description} onChange={this.handleChange} />
-              <Form.Input placeholder='Data...' name='date' value={date} onChange={this.handleChange} />
+              <Form.Input placeholder='Data...' name='date' value={date} onChange={this.handleChange} type='date' />
               <FileInput buttonContent='Wybierz zdjęcia' filesPrefix='media' onFileUploaded={this.onNewMedia} />
               <Divider />
               <Card.Group>

@@ -68,6 +68,9 @@ export const fetchMemories = () => (dispatch, getState) => {
       memories.push({...doc.data(), id: doc.id})
     })
 
+    console.log(memories)
+    memories = memories.sort(function (a, b) { return new Date(b.date) - new Date(a.date) })
+    console.log(memories)
     dispatch(loadMemories(memories))
   })
 }
