@@ -18,7 +18,6 @@ class SignInPage extends Component {
   }
 
   onSubmit (data) {
-    console.log(data)
     this.setState({ loading: true })
     this.props.signIn(data.email, data.password)
     .catch(error => {
